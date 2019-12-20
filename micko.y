@@ -49,7 +49,7 @@
 %token _COLON
 
 %type <i> num_exp exp literal
-%type <i> function_call argument rel_exp if_part
+%type <i> function_call argument rel_exp if_part cond_exp
 
 %nonassoc ONLY_IF
 %nonassoc _ELSE
@@ -250,6 +250,35 @@ exp
   		
   	vars_to_inc[var_num_to_inc++] = $$;
   	
+  }
+  /* conditional_operator*/
+  | _LPAREN rel_exp _RPAREN _QUESTION cond_exp _COLON cond_exp
+  {
+  	if(get_type($5)!=get_type($7))
+  		err("incompatible types");
+  		
+  	++lab_num;
+  	code("\n\t\t%s\t@false%d", opp_jumps[$2], lab_num);
+  	int reg = take_reg();
+  	gen_mov($5, reg);
+  	code("\n\t\tJMP\t@exit%d", lab_num);
+  	code("\n@false%d:", lab_num);
+  	gen_mov($7, reg);
+  	code("\n@exit%d:", lab_num);
+  	$$ = reg;
+  	set_type($$, get_type($5));
+  }
+  ;
+
+cond_exp
+  : literal
+  | _ID
+  {
+  	int idx = lookup_symbol($1, VAR|PAR|GLOB);
+  	if(idx == NO_INDEX)
+  		err("'%s' undeclared");
+  		
+  	$$ = idx;
   }
   ;
 

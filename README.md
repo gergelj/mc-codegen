@@ -99,7 +99,7 @@ Realizovati semantičku proveru:
 
 ## Vezba08
 
-### Zadatak 4
+### Zadatak 4 - `conditional_operator`
 
 Proširiti miniC izraze conditional operatorom:
 
@@ -108,7 +108,9 @@ Proširiti miniC izraze conditional operatorom:
 ```
 
 `<uslov>` predstavlja relacioni izraz
+
 `<izraz1>` i `<izraz2>` predstavljaju promenljivu, parametar ili konstantu
+
 `<izraz1>` i `<izraz2>` su istog tipa
 
 Realizovati generisanje koda za conditional operator.
