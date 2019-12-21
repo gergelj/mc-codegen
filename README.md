@@ -107,11 +107,9 @@ Proširiti miniC izraze conditional operatorom:
     "(" <uslov> ")" "?" <izraz1> ":" <izraz2>
 ```
 
-`<uslov>` predstavlja relacioni izraz
-
-`<izraz1>` i `<izraz2>` predstavljaju promenljivu, parametar ili konstantu
-
-`<izraz1>` i `<izraz2>` su istog tipa
+- `<uslov>` predstavlja relacioni izraz
+- `<izraz1>` i `<izraz2>` predstavljaju promenljivu, parametar ili konstantu
+- `<izraz1>` i `<izraz2>` su istog tipa
 
 Realizovati generisanje koda za conditional operator.
 
@@ -146,18 +144,14 @@ Proširiti miniC iskaze for petljom koja izgleda ovako:
 
 gde je:
 
-`<name>` ime lokalne promenljive ili parametra
-
-`<lit>`  literal
-
-`<rel>`  relacioni izraz
-
-`"++"`   inkrement operator
+- `<name>` ime lokalne promenljive ili parametra
+- `<lit>`  literal
+- `<rel>`  relacioni izraz
+- `"++"`   inkrement operator
 
 
-`<name>` mora biti deklarisano pre upotrebe
-
-`<name>` i `<lit>` treba da budu istog tipa
+- `<name>` mora biti deklarisano pre upotrebe
+- `<name>` i `<lit>` treba da budu istog tipa
 
 Realizovati generisanje koda za for petlju.
 - Inicijalizacija iteratora se vrši samo jednom, pre prvog izvršavanja tela petlje.
@@ -194,6 +188,7 @@ Proširiti miniC gramatiku switch iskazom. Sintaksa switch iskaza ima oblik:
 - `case_body` i `default_body` predstavljaju iskaz
 
 Postoji bar jedna case naredba.
+
 - `default` naredba se može pojaviti samo nakon `case` naredbi (kao poslednja).
 - `break` naredba se može pojaviti samo na kraju `case` naredbe.
 

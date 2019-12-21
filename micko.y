@@ -22,6 +22,11 @@
   FILE *output;
   int var_num_to_inc = 0;
   int vars_to_inc[100];
+  int switch_literals[100];
+  int switch_literal_num = 0;
+  int switch_num = -1;
+  int switch_var;
+  
 %}
 
 %union {
@@ -169,6 +174,81 @@ statement
   | return_statement
   | postincrement_statement
   | for_statement
+  | switch_statement
+  ;
+  
+switch_statement
+  : _SWITCH
+  {
+  	++switch_num;
+  	code("\n@switch%d:", switch_num);
+  	switch_literal_num = 0;
+  	code("\n\t\tJMP\t\t@switchtest%d", switch_num);
+  }
+  _LPAREN _ID
+  {
+  	int idx = lookup_symbol($4, VAR|PAR|GLOB);
+  	if(idx == NO_INDEX)
+  		err("'%s' undeclared", $4);
+  	switch_var = idx;
+  }
+  _RPAREN _LBRACKET cases
+  {
+  	//default labela
+  	code("\n@default%d:", switch_num);
+  }
+  maybedefault _RBRACKET
+  {
+  	//JMP na kraj sa default-a
+  	code("\n\t\tJMP\t\t@switchexit%d", switch_num);
+  	//switchtest
+  	code("\n@switchtest%d:", switch_num);
+	for(int i=0; i<switch_literal_num; i++){
+		gen_cmp(switch_literals[i], switch_var);
+		code("\n\t\tJEQ\t\t@case%d_%s", switch_num, get_name(switch_literals[i]));
+	}
+
+  	// ako nije nijedan case skoci na default
+  	code("\n\t\tJMP\t\t@default%d", switch_num);
+  	
+  	//kraj labela...
+  	code("\n@switchexit%d:", switch_num);
+  }
+  ;
+  
+cases
+  : case
+  | cases case
+  ;
+  
+case
+  : _CASE literal
+  {
+  	if(get_type($2)!=get_type(switch_var))
+  		err("incompatible types");
+  		
+  	for(int i=0; i<switch_literal_num; i++){
+  		if(switch_literals[i] == $2)
+  			err("values in case not unique");
+  	}	
+
+  	switch_literals[switch_literal_num++] = $2;
+  	code("\n@case%d_%s:", switch_num, get_name($2));
+  }
+  _COLON statement maybebreak
+  ;
+  
+maybebreak
+  : /**/
+  | _BREAK _SEMICOLON
+  {
+  	code("\n\t\tJMP\t\t@switchexit%d", switch_num);
+  }
+  ;
+  
+maybedefault
+  : /**/
+  | _DEFAULT _COLON statement
   ;
 
 for_statement
