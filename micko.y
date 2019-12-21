@@ -47,12 +47,19 @@
 %token _INC
 %token _QUESTION
 %token _COLON
+%token _FOR
+%token _SWITCH
+%token _CASE
+%token _BREAK
+%token _DEFAULT
 
 %type <i> num_exp exp literal
 %type <i> function_call argument rel_exp if_part cond_exp
 
 %nonassoc ONLY_IF
 %nonassoc _ELSE
+
+
 
 %%
 
@@ -161,6 +168,45 @@ statement
   | if_statement
   | return_statement
   | postincrement_statement
+  | for_statement
+  ;
+
+for_statement
+  : _FOR _LPAREN _ID _ASSIGN literal
+  {
+  	int idx = lookup_symbol($3, VAR|PAR|GLOB);
+  	if(idx == NO_INDEX)
+  		err("'%s' undeclared");
+  		
+  	if(get_type(idx)!=get_type($5))
+  		err("incompatible types");
+  		
+  	$<i>$ = ++lab_num;
+  	
+  	gen_mov($5, idx);
+  	code("\n@for%d:", lab_num);
+  }
+  _SEMICOLON rel_exp
+  {
+  	code("\n\t\t%s\t@forexit%d", opp_jumps[$8], $<i>6);
+  }
+  _SEMICOLON _ID _INC
+  {
+  	int idx = lookup_symbol($11, VAR|PAR|GLOB);
+  	if(idx == NO_INDEX)
+  		err("'%s' undeclared");
+  		
+  	$<i>$ = idx;
+  }
+  _RPAREN statement
+  {
+  	code("\n\t\t%s\t", ar_instructions[(get_type($<i>13) - 1)*AROP_NUMBER]);
+  	gen_sym_name($<i>13);
+  	code(",$1,");
+  	gen_sym_name($<i>13);
+  	code("\n\t\tJMP\t\t@for%d", $<i>6);
+  	code("\n@forexit%d:", $<i>6);
+  }
   ;
 
 postincrement_statement

@@ -127,4 +127,97 @@ Primer 2:
     a = a + (a == b) ? a : b + 3;
 ```
 
+### Zadatak 5 - nije implementirano
 
+Proširiti miniC numeričke izraze operacijama `*` i `/`.
+
+Operacije `*` i `/` treba da budu većeg prioriteta od `+` i `-`.
+
+## Vezba09
+
+### Zadatak 6 - `for_statement`
+
+Proširiti miniC iskaze for petljom koja izgleda ovako:
+
+```
+  "for" _LPAREN <name> "=" <lit> ";" <rel> ";" <name> "++")
+      <statement>
+```
+
+gde je:
+
+`<name>` ime lokalne promenljive ili parametra
+
+`<lit>`  literal
+
+`<rel>`  relacioni izraz
+
+`"++"`   inkrement operator
+
+
+`<name>` mora biti deklarisano pre upotrebe
+
+`<name>` i `<lit>` treba da budu istog tipa
+
+Realizovati generisanje koda za for petlju.
+- Inicijalizacija iteratora se vrši samo jednom, pre prvog izvršavanja tela petlje.
+- Tačnost relacije se proverava na početku svake iteracije.
+- Inkrementiranje iteratora se vrši na kraju svake iteracije.
+
+> Napomena: Petlje mogu biti i ugnježdene.
+
+Primer:
+
+```c
+  int suma;
+  int i;
+  suma = 0;
+  for(i = 0; i < 5; i++)
+    suma = suma + i;
+```
+
+### Zadatak 7 - `switch_statement`
+
+Proširiti miniC gramatiku switch iskazom. Sintaksa switch iskaza ima oblik:
+
+```
+  "switch" "(" switch_expression ")" "{"
+    "case" constant_expression ":" case_body [ "break" ";" ]
+    "case" constant_expression ":" case_body [ "break" ";" ]
+       ...
+    [ "default" ":" default_body ]
+  "}"
+```
+
+- `switch_expression` predstavlja ime promenljive koja prethodno mora biti deklarisana
+- `constant_expression` predstavlja konstantu
+- `case_body` i `default_body` predstavljaju iskaz
+
+Postoji bar jedna case naredba.
+- `default` naredba se može pojaviti samo nakon `case` naredbi (kao poslednja).
+- `break` naredba se može pojaviti samo na kraju `case` naredbe.
+
+Izvršavanje:
+- na početku `switch` iskaza se izvrši provera vrednosti promenljive u zagradama
+- u zavisnosti od te vrednosti preusmerava se tok izvršavanja na telo odgovarajuće case naredbe
+- ukoliko se na kraju `case` naredbe nalazi `break` naredba, tok izvršavanja se preusmerava na kraj switch iskaza; a ako je `break` naredba izostavljena, "propada" se na izvršavanje sledeće `case` naredbe
+- `default` naredba se izvršava ukoliko se vrednost `switch` promenljive razlikuje od svih konstanti navedenih u svim `case` naredbama
+
+Primer1:
+
+```c
+  switch (state) {
+    case 10: { s = 1; } break;
+    case 20: s = 2;
+    default: s = 0;
+  } 
+```
+
+Primer2:
+
+```c
+  switch (state) {
+    case 10: s = 1; break;
+    case 20: { s = 2; }
+  }
+```

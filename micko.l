@@ -15,6 +15,11 @@
 "if"                 { return _IF; }
 "else"               { return _ELSE; }
 "return"             { return _RETURN; }
+"for"				 { return _FOR; }
+"switch"			 { return _SWITCH; }
+"case"				 { return _CASE; }
+"break"				 { return _BREAK; }
+"default" 			 { return _DEFAULT; }
 
 "("                  { return _LPAREN; }
 ")"                  { return _RPAREN; }
@@ -27,6 +32,8 @@
 
 "+"                  { yylval.i = ADD; return _AROP; }
 "-"                  { yylval.i = SUB; return _AROP; }
+"*"					 { yylval.i = MUL; return _AROP; }
+"/"					 { yylval.i = DIV; return _AROP; }
 "++"				 { return _INC; }
 
 "<"                  { yylval.i = LT; return _RELOP; }
