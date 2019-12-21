@@ -216,3 +216,5 @@ Primer2:
     case 20: { s = 2; }
   }
 ```
+
+> NAPOMENA: ne moze se napisati switch u drugom switchu.
