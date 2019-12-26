@@ -2,15 +2,15 @@
 
 int main(){
 
-	int a;
-	int i;
+	unsigned a;
+	unsigned i;
 	int s;
-	int j;
-	a = 6;
+	unsigned j;
+	a = 6u;
 	s = 0;
 	
-	for(i=0; i < a; i++)
-		for(j=0; j < 8 - 3; j++)
+	for(i=0u; i < a; i++)
+		for(j=0u; j < 8u - 3u; j++)
 			s = s + 1;
 		
 	return s;

@@ -256,7 +256,7 @@ for_statement
   {
   	int idx = lookup_symbol($3, VAR|PAR|GLOB);
   	if(idx == NO_INDEX)
-  		err("'%s' undeclared");
+  		err("'%s' undeclared", $3);
   		
   	if(get_type(idx)!=get_type($5))
   		err("incompatible types");
@@ -273,8 +273,9 @@ for_statement
   _SEMICOLON _ID _INC
   {
   	int idx = lookup_symbol($11, VAR|PAR|GLOB);
+  	
   	if(idx == NO_INDEX)
-  		err("'%s' undeclared");
+  		err("'%s' undeclared", $11);
   		
   	$<i>$ = idx;
   }
