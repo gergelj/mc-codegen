@@ -1,5 +1,11 @@
 # Generator koda za MiniC jezik
 
+> DIBAGER (hipsim), za pokretanje asemblerskog koda (hipotetski asemblerski kod) korak po korak:
+
+```
+./hipsim < naziv_asm_fajla.asm
+```
+
 ## Vezba07
 
 ### Zadatak 1 - `global_vars`
